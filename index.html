@@ -26,22 +26,7 @@
             background-size: 200% 200%;
             animation: gradient 15s ease infinite;
         }
-        nav {
-            margin-bottom: 5px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            color: white;
-            padding: 0 80px;
-        }
-        nav > ul {
-            list-style-type: none;
-            margin-left: 20px;
-        }
-        .bbc_logo {
-            width: 150px;
-            transform: translateX(-9px);
-        }
+
         .challenge-header {
             background-color: white;
             padding: 20px 5vw 20px 5vw;
@@ -63,6 +48,7 @@
         }
         .CodeMirror {
             flex-grow: 1;
+            padding-top: 10px;
         }
         .header-bar {
             background-color: lightgray;
@@ -132,23 +118,51 @@
             word-wrap: break-word;
             line-height: 25px;
         }
+        /* Styling for the ticket box */
+        #challenge-description {
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 6px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #challenge-description p {
+            color: #333;
+        }
+        #challenge-description p:first-child {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="bbc_logo">
-            <a href="https://www.bbc.co.uk/">
-                <img src="https://www.bbc.co.uk/news/special/2015/newsspec_10857/bbc_news_logo.png"
-                     alt="BBC Logo" style="width: 100px;">
-            </a>
-        </div>
-        <ul>
-            <li style="margin-bottom: 5px;">Access Foundations & IBL</li>
-        </ul>
-    </nav>
-
     <div style="width: 100%; height: 100vh; padding: 40px;">
+
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+
+            <div class="bbc_logo" style="width: 30%;">
+                <svg xmlns="http://www.w3.org/2000/svg" id="BBC_Logo" viewBox="0 0 1024 384"><style>.st0{fill:#FFFFFF;}</style><defs><path id="BBC_Logo_White_RGB_Path" d="M0 0h211.122v60.482H0z"></path></defs><path class="st0" d="M64,64v256h256V64H64z M242.5,244.7c-4.4,6.2-10.6,10.9-18.7,14.3c-8.1,3.4-17.8,5-29.2,5h-57.4V120h54
+                    c15.9,0,28.3,3.2,37,9.6c8.7,6.4,13.1,15.5,13.1,27.5c0,6.8-1.6,12.8-4.7,17.8c-3.1,5-7.8,9-13.9,12c8.5,2.8,15,7.3,19.5,13.4
+                    c4.5,6.1,6.8,13.5,6.8,22.3C249.1,231.1,246.9,238.5,242.5,244.7z M205.9,174.3c4-3.3,6-7.9,6-13.8c0-11.4-7.8-17.1-23.3-17.1
+                    h-22.1v35.8h22.1C196.2,179.2,201.9,177.6,205.9,174.3z M192.3,201.8h-25.8v38.9h25.5c8.7,0,15.5-1.6,20.2-4.9c4.7-3.3,7-8,7-14.2
+                    C219.1,208.3,210.2,201.8,192.3,201.8z"></path><path class="st0" d="M384,64v256h256V64H384z M562.5,244.7c-4.4,6.2-10.6,10.9-18.7,14.3c-8.1,3.4-17.8,5-29.2,5h-57.4V120h54
+                    c15.9,0,28.3,3.2,37,9.6c8.7,6.4,13.1,15.5,13.1,27.5c0,6.8-1.6,12.8-4.7,17.8c-3.1,5-7.8,9-13.9,12c8.5,2.8,15,7.3,19.5,13.4
+                    c4.5,6.1,6.8,13.5,6.8,22.3C569.1,231.1,566.9,238.5,562.5,244.7z M525.9,174.3c4-3.3,6-7.9,6-13.8c0-11.4-7.8-17.1-23.3-17.1
+                    h-22.1v35.8h22.1C516.2,179.2,521.9,177.6,525.9,174.3z M512.3,201.8h-25.8v38.9h25.5c8.7,0,15.5-1.6,20.2-4.9c4.7-3.3,7-8,7-14.2
+                    C539.1,208.3,530.2,201.8,512.3,201.8z"></path><path class="st0" d="M704,320h256V64H704V320z M887.9,254.9c-6,3.3-12.9,5.9-20.7,7.8c-7.9,1.9-16.1,2.9-24.8,2.9
+                    c-11.5,0-21.9-1.7-31.1-5c-9.2-3.4-17-8.2-23.4-14.5c-6.4-6.3-11.2-14-14.6-23.2c-3.4-9.1-5.1-19.4-5.1-30.9
+                    c0-11.2,1.8-21.3,5.3-30.3c3.5-9,8.6-16.7,15.2-23.2c6.6-6.4,14.6-11.4,23.9-14.8c9.3-3.4,19.7-5.1,31.2-5.1c8,0,15.5,0.8,22.7,2.5
+                    c7.1,1.6,13.7,4,19.8,7.2v28c-5.6-3.7-11.6-6.5-18.1-8.4c-6.5-1.9-13.3-2.9-20.5-2.9c-9.9,0-18.3,1.8-25.3,5.5
+                    c-7,3.7-12.3,9-16.1,16c-3.7,7-5.6,15.5-5.6,25.5c0,10,1.8,18.5,5.4,25.6c3.6,7,8.8,12.4,15.6,16.1c6.8,3.7,15.1,5.5,24.9,5.5
+                    c14.9,0,28.7-3.9,41.3-11.6V254.9z"></path>
+                </svg>
+            </div>
+
+            <h1 style="color: white; font-size: 5em; font-weight: light;">Coding Challenge</h1>
+
+            <h1 style="color: white; font-size: 2em;">Do you have what it takes? (probably)</h1>
+
+        </div>
 
     </div>
 
@@ -162,15 +176,16 @@
                         <option value="python">Python</option>
                     </select>
                     <select id="challenge-selector" class="styled-select" onchange="loadChallengeSelector()">
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
+                        <option value="reverseString">Reverse String (Easy)</option>
+                        <option value="countVowels">Count Vowels (Easy)</option>
+                        <option value="isPalindrome">Check Palindrome (Medium)</option>
+                        <option value="isAnagram">Check Anagrams (Hard)</option>
                     </select>
                 </div>
                 <!-- Challenge description moved here -->
-                <div id="challenge-description" style="margin: 20px 0; background-color: lightgrey; padding: 15px;">
-                    <p style="color: black;">Implement a function `add(a, b)` that returns the sum of two numbers.</p>
-                    <p style="color: black;"><strong>Example:</strong> `add(2, 3)` should return `5`.</p>
+                <div id="challenge-description">
+                    <p>Implement a function `add(a, b)` that returns the sum of two numbers.</p>
+                    <p><strong>Example:</strong> `add(2, 3)` should return `5`.</p>
                 </div>
                 <!-- Code Editor -->
                 <span class="header-bar">Code Editor</span>
@@ -215,122 +230,224 @@
         });
 
         let currentLanguage = 'javascript';
-        let currentChallenge = 'easy';
+        let currentChallenge = 'reverseString';
 
         // Store challenges and test cases
         const challenges = {
             javascript: {
-                easy: {
-                    description: "Implement a function `add(a, b)` that returns the sum of two numbers.",
-                    example: "Example: `add(2, 3)` should return `5`.",
-                    starterCode: `// Write your function here
-// function add(a, b) {
-//     // Your code here
-// }
-`,
-                    solutionCode: `function add(a, b) {
-    return a + b;
+                reverseString: {
+                    description: "Ticket #12345: The `reverseString(str)` function is supposed to reverse a given string, but it's not working correctly. Please fix the code so that it passes all the tests.",
+                    example: "`reverseString('hello')` should return `'olleh'`.",
+                    difficulty: "Easy",
+                    functionName: "reverseString",
+                    starterCode: `function reverseString(str) {
+    // Buggy code
+    return str;
 }`,
-                    tests: [
-                        { input: [2, 3], expected: 5, description: 'should return 5 for add(2, 3)' },
-                        { input: [-1, 1], expected: 0, description: 'should return 0 for add(-1, 1)' },
-                    ]
-                },
-                medium: {
-                    description: "Implement a function `fibonacci(n)` that returns an array of the first `n` numbers in the Fibonacci sequence.",
-                    example: "Example: `fibonacci(5)` should return `[0, 1, 1, 2, 3]`.",
-                    starterCode: `// Write your function here
-// function fibonacci(n) {
-//     // Your code here
-// }
-`,
-                    solutionCode: `function fibonacci(n) {
-    if (n <= 0) return [];
-    let fib = [0, 1];
-    for (let i = 2; i < n; i++) {
-        fib.push(fib[i - 1] + fib[i - 2]);
+                    solutionCode: `function reverseString(str) {
+    let reversed = '';
+    for (let i = str.length - 1; i >= 0; i--) {
+        reversed += str[i];
     }
-    return fib.slice(0, n);
+    return reversed;
 }`,
                     tests: [
-                        { input: 1, expected: [0], description: 'should return [0] for fibonacci(1)' },
-                        { input: 5, expected: [0,1,1,2,3], description: 'should return [0,1,1,2,3] for fibonacci(5)' },
+                        { input: 'hello', expected: 'olleh', description: 'should return "olleh" for reverseString("hello")' },
+                        { input: 'world', expected: 'dlrow', description: 'should return "dlrow" for reverseString("world")' },
+                        { input: '', expected: '', description: 'should return "" for reverseString("")' },
+                        { input: 'a', expected: 'a', description: 'should return "a" for reverseString("a")' },
+                        { input: 'racecar', expected: 'racecar', description: 'should return "racecar" for reverseString("racecar")' },
                     ]
                 },
-                hard: {
-                    description: "Implement a function `isPrime(n)` that returns `true` if `n` is a prime number, and `false` otherwise.",
-                    example: "Example: `isPrime(7)` should return `true`.",
-                    starterCode: `// Write your function here
-// function isPrime(n) {
-//     // Your code here
-// }
-`,
-                    solutionCode: `function isPrime(n) {
-    if (n <= 1) return false;
-    for (let i = 2; i <= Math.sqrt(n); i++) {
-        if (n % i === 0) return false;
+                countVowels: {
+                    description: "Ticket #12346: The `countVowels(str)` function is supposed to count the number of vowels in a given string. Please fix the code so that it passes all the tests.",
+                    example: "`countVowels('hello')` should return `2`.",
+                    difficulty: "Easy",
+                    functionName: "countVowels",
+                    starterCode: `function countVowels(str) {
+    // Buggy code
+    return 0;
+}`,
+                    solutionCode: `function countVowels(str) {
+    let count = 0;
+    const vowels = 'aeiouAEIOU';
+    for (let i = 0; i < str.length; i++) {
+        let char = str[i];
+        if (vowels.indexOf(char) !== -1) {
+            count++;
+        }
+    }
+    return count;
+}`,
+                    tests: [
+                        { input: 'hello', expected: 2, description: 'should return 2 for countVowels("hello")' },
+                        { input: 'world', expected: 1, description: 'should return 1 for countVowels("world")' },
+                        { input: '', expected: 0, description: 'should return 0 for countVowels("")' },
+                        { input: 'AEIOU', expected: 5, description: 'should return 5 for countVowels("AEIOU")' },
+                        { input: 'bcdfghjklmnpqrstvwxyz', expected: 0, description: 'should return 0 for countVowels("bcdfghjklmnpqrstvwxyz")' },
+                    ]
+                },
+                isPalindrome: {
+                    description: "Ticket #12347: The `isPalindrome(str)` function is supposed to check if a given string is a palindrome, but it's not working correctly. Please fix the code so that it passes all the tests.",
+                    example: "`isPalindrome('racecar')` should return `true`.",
+                    difficulty: "Medium",
+                    functionName: "isPalindrome",
+                    starterCode: `function isPalindrome(str) {
+    // Buggy code
+    return false;
+}`,
+                    solutionCode: `function isPalindrome(str) {
+    let left = 0;
+    let right = str.length - 1;
+    while (left < right) {
+        if (str[left] !== str[right]) {
+            return false;
+        }
+        left++;
+        right--;
     }
     return true;
 }`,
                     tests: [
-                        { input: 2, expected: true, description: 'should return true for isPrime(2)' },
-                        { input: 4, expected: false, description: 'should return false for isPrime(4)' },
-                        { input: 13, expected: true, description: 'should return true for isPrime(13)' },
+                        { input: 'racecar', expected: true, description: 'should return true for isPalindrome("racecar")' },
+                        { input: 'hello', expected: false, description: 'should return false for isPalindrome("hello")' },
+                        { input: 'level', expected: true, description: 'should return true for isPalindrome("level")' },
+                        { input: '', expected: true, description: 'should return true for isPalindrome("")' },
+                        { input: 'A', expected: true, description: 'should return true for isPalindrome("A")' },
+                    ]
+                },
+                isAnagram: {
+                    description: "Ticket #12348: The `isAnagram(str1, str2)` function is supposed to check if two strings are anagrams of each other. Please fix the code so that it passes all the tests.",
+                    example: "`isAnagram('listen', 'silent')` should return `true`.",
+                    difficulty: "Hard",
+                    functionName: "isAnagram",
+                    starterCode: `function isAnagram(str1, str2) {
+    // Buggy code
+    return false;
+}`,
+                    solutionCode: `function isAnagram(str1, str2) {
+    function buildCharMap(str) {
+        const charMap = {};
+        for (let char of str.replace(/\\s/g, '').toLowerCase()) {
+            charMap[char] = charMap[char] + 1 || 1;
+        }
+        return charMap;
+    }
+    const charMap1 = buildCharMap(str1);
+    const charMap2 = buildCharMap(str2);
+
+    if (Object.keys(charMap1).length !== Object.keys(charMap2).length) {
+        return false;
+    }
+    for (let char in charMap1) {
+        if (charMap1[char] !== charMap2[char]) {
+            return false;
+        }
+    }
+    return true;
+}`,
+                    tests: [
+                        { input: ['listen', 'silent'], expected: true, description: 'should return true for isAnagram("listen", "silent")' },
+                        { input: ['hello', 'world'], expected: false, description: 'should return false for isAnagram("hello", "world")' },
+                        { input: ['anagram', 'nagaram'], expected: true, description: 'should return true for isAnagram("anagram", "nagaram")' },
+                        { input: ['Dormitory', 'Dirty room'], expected: true, description: 'should return true for isAnagram("Dormitory", "Dirty room")' },
+                        { input: ['School master', 'The classroom'], expected: true, description: 'should return true for isAnagram("School master", "The classroom")' },
                     ]
                 }
             },
             python: {
-                easy: {
-                    description: "Implement a function `add(a, b)` that returns the sum of two numbers.",
-                    example: "Example: `add(2, 3)` should return `5`.",
-                    starterCode: `# Write your function here
-# def add(a, b):
-#     # Your code here
-`,
-                    solutionCode: `def add(a, b):
-    return a + b`,
+                reverseString: {
+                    description: "Ticket #12345: The `reverse_string(s)` function is supposed to reverse a given string, but it's not working correctly. Please fix the code so that it passes all the tests.",
+                    example: "`reverse_string('hello')` should return `'olleh'`.",
+                    difficulty: "Easy",
+                    functionName: "reverse_string",
+                    starterCode: `def reverse_string(s):
+    # Buggy code
+    return s`,
+                    solutionCode: `def reverse_string(s):
+    reversed_s = ''
+    for i in range(len(s)-1, -1, -1):
+        reversed_s += s[i]
+    return reversed_s`,
                     tests: [
-                        { input: [2, 3], expected: 5, description: 'should return 5 for add(2, 3)' },
-                        { input: [-1, 1], expected: 0, description: 'should return 0 for add(-1, 1)' },
+                        { input: 'hello', expected: 'olleh', description: 'should return "olleh" for reverse_string("hello")' },
+                        { input: 'world', expected: 'dlrow', description: 'should return "dlrow" for reverse_string("world")' },
+                        { input: '', expected: '', description: 'should return "" for reverse_string("")' },
+                        { input: 'a', expected: 'a', description: 'should return "a" for reverse_string("a")' },
+                        { input: 'racecar', expected: 'racecar', description: 'should return "racecar" for reverse_string("racecar")' },
                     ]
                 },
-                medium: {
-                    description: "Implement a function `fibonacci(n)` that returns a list of the first `n` numbers in the Fibonacci sequence.",
-                    example: "Example: `fibonacci(5)` should return `[0, 1, 1, 2, 3]`.",
-                    starterCode: `# Write your function here
-# def fibonacci(n):
-#     # Your code here
-`,
-                    solutionCode: `def fibonacci(n):
-    if n <= 0:
-        return []
-    fib = [0, 1]
-    for i in range(2, n):
-        fib.append(fib[i - 1] + fib[i - 2])
-    return fib[:n]`,
+                countVowels: {
+                    description: "Ticket #12346: The `count_vowels(s)` function is supposed to count the number of vowels in a given string. Please fix the code so that it passes all the tests.",
+                    example: "`count_vowels('hello')` should return `2`.",
+                    difficulty: "Easy",
+                    functionName: "count_vowels",
+                    starterCode: `def count_vowels(s):
+    # Buggy code
+    return 0`,
+                    solutionCode: `def count_vowels(s):
+    count = 0
+    vowels = 'aeiouAEIOU'
+    for char in s:
+        if char in vowels:
+            count += 1
+    return count`,
                     tests: [
-                        { input: 1, expected: [0], description: 'should return [0] for fibonacci(1)' },
-                        { input: 5, expected: [0,1,1,2,3], description: 'should return [0,1,1,2,3] for fibonacci(5)' },
+                        { input: 'hello', expected: 2, description: 'should return 2 for count_vowels("hello")' },
+                        { input: 'world', expected: 1, description: 'should return 1 for count_vowels("world")' },
+                        { input: '', expected: 0, description: 'should return 0 for count_vowels("")' },
+                        { input: 'AEIOU', expected: 5, description: 'should return 5 for count_vowels("AEIOU")' },
+                        { input: 'bcdfghjklmnpqrstvwxyz', expected: 0, description: 'should return 0 for count_vowels("bcdfghjklmnpqrstvwxyz")' },
                     ]
                 },
-                hard: {
-                    description: "Implement a function `is_prime(n)` that returns `True` if `n` is a prime number, and `False` otherwise.",
-                    example: "Example: `is_prime(7)` should return `True`.",
-                    starterCode: `# Write your function here
-# def is_prime(n):
-#     # Your code here
-`,
-                    solutionCode: `def is_prime(n):
-    if n <= 1:
-        return False
-    for i in range(2, int(n**0.5)+1):
-        if n % i == 0:
+                isPalindrome: {
+                    description: "Ticket #12347: The `is_palindrome(s)` function is supposed to check if a given string is a palindrome, but it's not working correctly. Please fix the code so that it passes all the tests.",
+                    example: "`is_palindrome('racecar')` should return `True`.",
+                    difficulty: "Medium",
+                    functionName: "is_palindrome",
+                    starterCode: `def is_palindrome(s):
+    # Buggy code
+    return False`,
+                    solutionCode: `def is_palindrome(s):
+    left = 0
+    right = len(s) - 1
+    while left < right:
+        if s[left] != s[right]:
             return False
+        left += 1
+        right -= 1
     return True`,
                     tests: [
-                        { input: 2, expected: true, description: 'should return True for is_prime(2)' },
-                        { input: 4, expected: false, description: 'should return False for is_prime(4)' },
-                        { input: 13, expected: true, description: 'should return True for is_prime(13)' },
+                        { input: 'racecar', expected: true, description: 'should return True for is_palindrome("racecar")' },
+                        { input: 'hello', expected: false, description: 'should return False for is_palindrome("hello")' },
+                        { input: 'level', expected: true, description: 'should return True for is_palindrome("level")' },
+                        { input: '', expected: true, description: 'should return True for is_palindrome("")' },
+                        { input: 'A', expected: true, description: 'should return True for is_palindrome("A")' },
+                    ]
+                },
+                isAnagram: {
+                    description: "Ticket #12348: The `is_anagram(str1, str2)` function is supposed to check if two strings are anagrams of each other. Please fix the code so that it passes all the tests.",
+                    example: "`is_anagram('listen', 'silent')` should return `True`.",
+                    difficulty: "Hard",
+                    functionName: "is_anagram",
+                    starterCode: `def is_anagram(str1, str2):
+    # Buggy code
+    return False`,
+                    solutionCode: `def is_anagram(str1, str2):
+    def build_char_map(s):
+        char_map = {}
+        for char in s.replace(' ', '').lower():
+            char_map[char] = char_map.get(char, 0) + 1
+        return char_map
+    char_map1 = build_char_map(str1)
+    char_map2 = build_char_map(str2)
+    return char_map1 == char_map2`,
+                    tests: [
+                        { input: ['listen', 'silent'], expected: true, description: 'should return True for is_anagram("listen", "silent")' },
+                        { input: ['hello', 'world'], expected: false, description: 'should return False for is_anagram("hello", "world")' },
+                        { input: ['anagram', 'nagaram'], expected: true, description: 'should return True for is_anagram("anagram", "nagaram")' },
+                        { input: ['Dormitory', 'Dirty room'], expected: true, description: 'should return True for is_anagram("Dormitory", "Dirty room")' },
+                        { input: ['School master', 'The classroom'], expected: true, description: 'should return True for is_anagram("School master", "The classroom")' },
                     ]
                 }
             }
@@ -383,6 +500,7 @@
 
             const challenge = challenges[currentLanguage][currentChallenge];
             const tests = challenge.tests;
+            const funcName = challenge.functionName;
 
             if (currentLanguage === 'javascript') {
                 // Save original console methods
@@ -390,34 +508,13 @@
                 const originalConsoleError = console.error;
 
                 // Create a custom console object
-                let suppressOutput = false; // Flag to suppress output during tests
                 const userConsoleOutput = [];
                 console.log = (...args) => {
-                    if (!suppressOutput) {
-                        userConsoleOutput.push(args.join(' '));
-                    }
+                    userConsoleOutput.push(args.join(' '));
                 };
                 console.error = (...args) => {
-                    if (!suppressOutput) {
-                        userConsoleOutput.push(args.join(' '));
-                    }
+                    userConsoleOutput.push(args.join(' '));
                 };
-
-                // Extract function name
-                let funcName;
-                try {
-                    const functionNameMatch = code.match(/function\s+(\w+)\s*\(/);
-                    if (!functionNameMatch) {
-                        throw new Error("Function is not defined.");
-                    }
-                    funcName = functionNameMatch[1];
-                } catch (e) {
-                    output.innerHTML = `<div style="color:red;">${e.message}</div>`;
-                    // Restore original console methods
-                    console.log = originalConsoleLog;
-                    console.error = originalConsoleError;
-                    return;
-                }
 
                 // Append code to attach the function to window
                 const codeWithExport = code + `
@@ -455,12 +552,11 @@ window['${funcName}'] = ${funcName};
                         throw new Error(`Function '${funcName}' is not defined.`);
                     }
 
-                    // Suppress console output during tests
-                    suppressOutput = true;
-
                     tests.forEach(test => {
                         let result;
                         try {
+                            // Capture console output during tests
+                            userConsoleOutput.length = 0;
                             if (Array.isArray(test.input)) {
                                 result = userFunc(...test.input);
                             } else {
@@ -482,6 +578,11 @@ window['${funcName}'] = ${funcName};
                                 testResult.textContent = `❌ ${test.description} (Expected: ${JSON.stringify(test.expected)}, Got: ${JSON.stringify(result)})`;
                             }
                             output.appendChild(testResult);
+
+                            // Append console output for each test
+                            if (userConsoleOutput.length > 0) {
+                                consoleOutput.innerHTML += userConsoleOutput.map(line => `<div>${line}</div>`).join("");
+                            }
                         } catch (err) {
                             const errorDiv = document.createElement("div");
                             errorDiv.style.backgroundColor = "#f8d7da";
@@ -492,9 +593,6 @@ window['${funcName}'] = ${funcName};
                         }
                     });
 
-                    // Restore console output after tests
-                    suppressOutput = false;
-
                 } catch (e) {
                     output.innerHTML = `<div style="color:red;">${e.message}</div>`;
                 } finally {
@@ -503,15 +601,10 @@ window['${funcName}'] = ${funcName};
                     console.error = originalConsoleError;
                 }
             } else if (currentLanguage === 'python') {
-                let suppressOutput = false; // Flag to suppress output during tests
-
+                const userConsoleOutput = [];
                 Sk.configure({
                     output: function (text) {
-                        if (!suppressOutput) {
-                            const logEntry = document.createElement("div");
-                            logEntry.textContent = text;
-                            consoleOutput.appendChild(logEntry);
-                        }
+                        userConsoleOutput.push(text);
                     },
                     read: function (x) {
                         if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
@@ -529,12 +622,7 @@ window['${funcName}'] = ${funcName};
                             return Sk.importMainWithBody("<stdin>", false, code, true);
                         });
 
-                        // Extract function name
-                        let funcNameMatch = code.match(/def\s+(\w+)\s*\(/);
-                        if (!funcNameMatch) {
-                            throw new Error("Function is not defined.");
-                        }
-                        let funcName = funcNameMatch[1];
+                        const funcName = challenge.functionName;
 
                         // Get user's function
                         let pyFunc = module.$d[funcName];
@@ -543,12 +631,16 @@ window['${funcName}'] = ${funcName};
                             throw new Error(`Function '${funcName}' is not defined.`);
                         }
 
-                        // Suppress output during tests
-                        suppressOutput = true;
+                        // Display user's console output
+                        if (userConsoleOutput.length > 0) {
+                            consoleOutput.innerHTML = userConsoleOutput.map(line => `<div>${line}</div>`).join("");
+                        }
 
                         // Run tests
                         for (const test of tests) {
                             try {
+                                // Capture console output during tests
+                                userConsoleOutput.length = 0;
                                 const input = Array.isArray(test.input) ? test.input.map(Sk.ffi.remapToPy) : [Sk.ffi.remapToPy(test.input)];
                                 const result = Sk.ffi.remapToJs(
                                     await Sk.misceval.callsimAsync(null, pyFunc, ...input)
@@ -570,6 +662,11 @@ window['${funcName}'] = ${funcName};
                                     testResult.textContent = `❌ ${test.description} (Expected: ${JSON.stringify(test.expected)}, Got: ${JSON.stringify(result)})`;
                                 }
                                 output.appendChild(testResult);
+
+                                // Append console output for each test
+                                if (userConsoleOutput.length > 0) {
+                                    consoleOutput.innerHTML += userConsoleOutput.map(line => `<div>${line}</div>`).join("");
+                                }
                             } catch (err) {
                                 const errorDiv = document.createElement("div");
                                 errorDiv.style.backgroundColor = "#f8d7da";
@@ -580,8 +677,6 @@ window['${funcName}'] = ${funcName};
                             }
                         }
 
-                        // Restore output after tests
-                        suppressOutput = false;
                     } catch (err) {
                         consoleOutput.innerHTML = `<div style="color:red;">${err.toString()}</div>`;
                     }
