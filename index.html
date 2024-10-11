@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Kata Challenges</title>
+    <!-- Load CodeMirror CSS and Theme -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+    <!-- Custom CSS -->
+    <style>
+        @font-face {
+            font-family: reithsans;
+            src: url(assets/reithsans.woff);
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'reithsans';
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #932c3f, #8e2848, #882550, #7f2559, #752760, #6f2866, #672b6c, #5e2d72, #572f7a, #4d3182, #3f358b, #293893, #132125);
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+        }
+        nav {
+            margin-bottom: 5px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 0 80px;
+        }
+        nav > ul {
+            list-style-type: none;
+            margin-left: 20px;
+        }
+        .bbc_logo {
+            width: 150px;
+            transform: translateX(-9px);
+        }
+        .challenge-header {
+            background-color: white;
+            padding: 20px 5vw 20px 5vw;
+        }
+        .container {
+            height: 100%; /* Adjust this value as needed */
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: #fff;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #333;
+            text-align: left;
+        }
+        #editor {
+            height: 300px;
+        }
+        .CodeMirror {
+            flex-grow: 1;
+        }
+        .header-bar {
+            background-color: lightgray;
+            padding: 5px 10px;
+        }
+        .styled-select, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        .styled-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg%20xmlns="http://www.w3.org/2000/svg"%20width="24"%20height="24"%20viewBox="0%200%2024%2024"><path%20fill="%23ffffff"%20d="M7%2010l5%205%205-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px 16px;
+        }
+        button:hover, .styled-select:hover {
+            background: #0056b3;
+        }
+        #output {
+            background: #282a36;
+            color: #f8f8f2;
+            padding: 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .test-pass {
+            color: green;
+        }
+        .test-fail {
+            color: red;
+        }
+        /* Additional styling for the solution button */
+        #solution-button {
+            background-color: #28a745;
+        }
+        #solution-button:hover {
+            background-color: #218838;
+        }
+        .left-panel, .right-panel {
+            display: flex;
+            flex-direction: column;
+        }
+        .left-panel {
+            width: 60%;
+        }
+        .right-panel {
+            width: 40%;
+        }
+        #console-output {
+            height: 50%;
+            overflow-y: auto;
+            background-color: black;
+            color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            word-wrap: break-word;
+            line-height: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="bbc_logo">
+            <a href="https://www.bbc.co.uk/">
+                <img src="https://www.bbc.co.uk/news/special/2015/newsspec_10857/bbc_news_logo.png"
+                     alt="BBC Logo" style="width: 100px;">
+            </a>
+        </div>
+        <ul>
+            <li style="margin-bottom: 5px;">Access Foundations & IBL</li>
+        </ul>
+    </nav>
+
+    <div style="width: 100%; height: 100vh; padding: 40px;">
+
+    </div>
+
+    <div style="width: 100%; height: 100vh; padding: 40px;">
+        <div class="container">
+            <div class="left-panel">
+                <!-- Selectors -->
+                <div style="display: flex; gap: 15px;">
+                    <select id="language-selector" class="styled-select" onchange="loadLanguage()">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                    </select>
+                    <select id="challenge-selector" class="styled-select" onchange="loadChallengeSelector()">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <!-- Challenge description moved here -->
+                <div id="challenge-description" style="margin: 20px 0; background-color: lightgrey; padding: 15px;">
+                    <p style="color: black;">Implement a function `add(a, b)` that returns the sum of two numbers.</p>
+                    <p style="color: black;"><strong>Example:</strong> `add(2, 3)` should return `5`.</p>
+                </div>
+                <!-- Code Editor -->
+                <span class="header-bar">Code Editor</span>
+                <textarea id="editor"></textarea>
+                <!-- Buttons -->
+                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                    <button onclick="runTests()">Run code and tests</button>
+                    <button id="solution-button" onclick="showSolution()">Show Solution</button>
+                </div>
+            </div>
+    
+            <div class="right-panel">
+                <span class="header-bar">Console Output</span>
+                <!-- Console Output Section -->
+                <div id="console-output"></div>
+    
+                <span class="header-bar">Test Results</span>
+                <!-- Test Results Output -->
+                <div id="output"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load CodeMirror Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <!-- JavaScript and Python modes for CodeMirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js">
+    </script>
+    <!-- Load Skulpt for Python execution -->
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+    <script>
+        let editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+            lineNumbers: true,
+            mode: "javascript",
+            theme: "dracula",
+            indentUnit: 2,
+            indentWithTabs: true,
+        });
+
+        let currentLanguage = 'javascript';
+        let currentChallenge = 'easy';
+
+        // Store challenges and test cases
+        const challenges = {
+            javascript: {
+                easy: {
+                    description: "Implement a function `add(a, b)` that returns the sum of two numbers.",
+                    example: "Example: `add(2, 3)` should return `5`.",
+                    starterCode: `// Write your function here
+// function add(a, b) {
+//     // Your code here
+// }
+`,
+                    solutionCode: `function add(a, b) {
+    return a + b;
+}`,
+                    tests: [
+                        { input: [2, 3], expected: 5, description: 'should return 5 for add(2, 3)' },
+                        { input: [-1, 1], expected: 0, description: 'should return 0 for add(-1, 1)' },
+                    ]
+                },
+                medium: {
+                    description: "Implement a function `fibonacci(n)` that returns an array of the first `n` numbers in the Fibonacci sequence.",
+                    example: "Example: `fibonacci(5)` should return `[0, 1, 1, 2, 3]`.",
+                    starterCode: `// Write your function here
+// function fibonacci(n) {
+//     // Your code here
+// }
+`,
+                    solutionCode: `function fibonacci(n) {
+    if (n <= 0) return [];
+    let fib = [0, 1];
+    for (let i = 2; i < n; i++) {
+        fib.push(fib[i - 1] + fib[i - 2]);
+    }
+    return fib.slice(0, n);
+}`,
+                    tests: [
+                        { input: 1, expected: [0], description: 'should return [0] for fibonacci(1)' },
+                        { input: 5, expected: [0,1,1,2,3], description: 'should return [0,1,1,2,3] for fibonacci(5)' },
+                    ]
+                },
+                hard: {
+                    description: "Implement a function `isPrime(n)` that returns `true` if `n` is a prime number, and `false` otherwise.",
+                    example: "Example: `isPrime(7)` should return `true`.",
+                    starterCode: `// Write your function here
+// function isPrime(n) {
+//     // Your code here
+// }
+`,
+                    solutionCode: `function isPrime(n) {
+    if (n <= 1) return false;
+    for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+    }
+    return true;
+}`,
+                    tests: [
+                        { input: 2, expected: true, description: 'should return true for isPrime(2)' },
+                        { input: 4, expected: false, description: 'should return false for isPrime(4)' },
+                        { input: 13, expected: true, description: 'should return true for isPrime(13)' },
+                    ]
+                }
+            },
+            python: {
+                easy: {
+                    description: "Implement a function `add(a, b)` that returns the sum of two numbers.",
+                    example: "Example: `add(2, 3)` should return `5`.",
+                    starterCode: `# Write your function here
+# def add(a, b):
+#     # Your code here
+`,
+                    solutionCode: `def add(a, b):
+    return a + b`,
+                    tests: [
+                        { input: [2, 3], expected: 5, description: 'should return 5 for add(2, 3)' },
+                        { input: [-1, 1], expected: 0, description: 'should return 0 for add(-1, 1)' },
+                    ]
+                },
+                medium: {
+                    description: "Implement a function `fibonacci(n)` that returns a list of the first `n` numbers in the Fibonacci sequence.",
+                    example: "Example: `fibonacci(5)` should return `[0, 1, 1, 2, 3]`.",
+                    starterCode: `# Write your function here
+# def fibonacci(n):
+#     # Your code here
+`,
+                    solutionCode: `def fibonacci(n):
+    if n <= 0:
+        return []
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i - 1] + fib[i - 2])
+    return fib[:n]`,
+                    tests: [
+                        { input: 1, expected: [0], description: 'should return [0] for fibonacci(1)' },
+                        { input: 5, expected: [0,1,1,2,3], description: 'should return [0,1,1,2,3] for fibonacci(5)' },
+                    ]
+                },
+                hard: {
+                    description: "Implement a function `is_prime(n)` that returns `True` if `n` is a prime number, and `False` otherwise.",
+                    example: "Example: `is_prime(7)` should return `True`.",
+                    starterCode: `# Write your function here
+# def is_prime(n):
+#     # Your code here
+`,
+                    solutionCode: `def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True`,
+                    tests: [
+                        { input: 2, expected: true, description: 'should return True for is_prime(2)' },
+                        { input: 4, expected: false, description: 'should return False for is_prime(4)' },
+                        { input: 13, expected: true, description: 'should return True for is_prime(13)' },
+                    ]
+                }
+            }
+        };
+
+        function loadChallenge() {
+            const challenge = challenges[currentLanguage][currentChallenge];
+            document.getElementById('challenge-description').innerHTML = `<p>${challenge.description}</p><p><strong>Example:</strong> ${challenge.example}</p>`;
+            editor.setValue(challenge.starterCode.trim());
+            editor.setOption('mode', currentLanguage === 'python' ? 'python' : 'javascript');
+
+            // Configure indentation based on language
+            if (currentLanguage === 'python') {
+                editor.setOption('indentUnit', 4);
+                editor.setOption('indentWithTabs', false);
+                editor.setOption('extraKeys', {
+                    Tab: function(cm) {
+                        if (cm.somethingSelected()) {
+                            cm.indentSelection("add");
+                        } else {
+                            cm.replaceSelection(" ".repeat(cm.getOption("indentUnit")), "end", "+input");
+                        }
+                    }
+                });
+            } else {
+                editor.setOption('indentUnit', 2);
+                editor.setOption('indentWithTabs', true);
+                editor.setOption('extraKeys', {
+                    Tab: 'default'
+                });
+            }
+        }
+
+        function loadLanguage() {
+            currentLanguage = document.getElementById('language-selector').value;
+            loadChallenge();
+        }
+
+        function loadChallengeSelector() {
+            currentChallenge = document.getElementById('challenge-selector').value;
+            loadChallenge();
+        }
+
+        function runTests() {
+            const code = editor.getValue();
+            const output = document.getElementById("output");
+            const consoleOutput = document.getElementById("console-output");
+            output.innerHTML = "";
+            consoleOutput.innerHTML = "";
+
+            const challenge = challenges[currentLanguage][currentChallenge];
+            const tests = challenge.tests;
+
+            if (currentLanguage === 'javascript') {
+                // Save original console methods
+                const originalConsoleLog = console.log;
+                const originalConsoleError = console.error;
+
+                // Create a custom console object
+                let suppressOutput = false; // Flag to suppress output during tests
+                const userConsoleOutput = [];
+                console.log = (...args) => {
+                    if (!suppressOutput) {
+                        userConsoleOutput.push(args.join(' '));
+                    }
+                };
+                console.error = (...args) => {
+                    if (!suppressOutput) {
+                        userConsoleOutput.push(args.join(' '));
+                    }
+                };
+
+                // Extract function name
+                let funcName;
+                try {
+                    const functionNameMatch = code.match(/function\s+(\w+)\s*\(/);
+                    if (!functionNameMatch) {
+                        throw new Error("Function is not defined.");
+                    }
+                    funcName = functionNameMatch[1];
+                } catch (e) {
+                    output.innerHTML = `<div style="color:red;">${e.message}</div>`;
+                    // Restore original console methods
+                    console.log = originalConsoleLog;
+                    console.error = originalConsoleError;
+                    return;
+                }
+
+                // Append code to attach the function to window
+                const codeWithExport = code + `
+window['${funcName}'] = ${funcName};
+`;
+
+                // Function to run user's code and capture output
+                const runUserCode = () => {
+                    try {
+                        // Execute user's code in the global scope
+                        eval(codeWithExport);
+                    } catch (e) {
+                        consoleOutput.innerHTML = `<div style="color:red;">${e.message}</div>`;
+                        throw e; // Rethrow to prevent tests from running
+                    }
+                };
+
+                // Run user's code and capture console output
+                try {
+                    runUserCode();
+                    // Display user's console output
+                    consoleOutput.innerHTML = userConsoleOutput.map(line => `<div>${line}</div>`).join("");
+                } catch (e) {
+                    // Error already displayed in console output
+                    // Restore original console methods
+                    console.log = originalConsoleLog;
+                    console.error = originalConsoleError;
+                    return;
+                }
+
+                // Run tests
+                try {
+                    const userFunc = window[funcName];
+                    if (typeof userFunc !== 'function') {
+                        throw new Error(`Function '${funcName}' is not defined.`);
+                    }
+
+                    // Suppress console output during tests
+                    suppressOutput = true;
+
+                    tests.forEach(test => {
+                        let result;
+                        try {
+                            if (Array.isArray(test.input)) {
+                                result = userFunc(...test.input);
+                            } else {
+                                result = userFunc(test.input);
+                            }
+                            const passed = JSON.stringify(result) === JSON.stringify(test.expected);
+
+                            const testResult = document.createElement("div");
+                            testResult.style.padding = "5px";
+                            testResult.style.marginBottom = "10px";
+
+                            if (passed) {
+                                testResult.style.backgroundColor = "#d4edda";
+                                testResult.style.color = "#155724";
+                                testResult.textContent = `✔️ ${test.description}`;
+                            } else {
+                                testResult.style.backgroundColor = "#f8d7da";
+                                testResult.style.color = "#721c24";
+                                testResult.textContent = `❌ ${test.description} (Expected: ${JSON.stringify(test.expected)}, Got: ${JSON.stringify(result)})`;
+                            }
+                            output.appendChild(testResult);
+                        } catch (err) {
+                            const errorDiv = document.createElement("div");
+                            errorDiv.style.backgroundColor = "#f8d7da";
+                            errorDiv.style.color = "#721c24";
+                            errorDiv.style.padding = "10px";
+                            errorDiv.textContent = `Error in test "${test.description}": ${err.message}`;
+                            output.appendChild(errorDiv);
+                        }
+                    });
+
+                    // Restore console output after tests
+                    suppressOutput = false;
+
+                } catch (e) {
+                    output.innerHTML = `<div style="color:red;">${e.message}</div>`;
+                } finally {
+                    // Restore original console methods
+                    console.log = originalConsoleLog;
+                    console.error = originalConsoleError;
+                }
+            } else if (currentLanguage === 'python') {
+                let suppressOutput = false; // Flag to suppress output during tests
+
+                Sk.configure({
+                    output: function (text) {
+                        if (!suppressOutput) {
+                            const logEntry = document.createElement("div");
+                            logEntry.textContent = text;
+                            consoleOutput.appendChild(logEntry);
+                        }
+                    },
+                    read: function (x) {
+                        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                            throw "File not found: '" + x + "'";
+                        return Sk.builtinFiles["files"][x];
+                    },
+                    __future__: Sk.python3,
+                    syspath: [],
+                });
+
+                (async function () {
+                    try {
+                        // Run user's code
+                        const module = await Sk.misceval.asyncToPromise(function () {
+                            return Sk.importMainWithBody("<stdin>", false, code, true);
+                        });
+
+                        // Extract function name
+                        let funcNameMatch = code.match(/def\s+(\w+)\s*\(/);
+                        if (!funcNameMatch) {
+                            throw new Error("Function is not defined.");
+                        }
+                        let funcName = funcNameMatch[1];
+
+                        // Get user's function
+                        let pyFunc = module.$d[funcName];
+
+                        if (!pyFunc || typeof pyFunc.tp$call !== 'function') {
+                            throw new Error(`Function '${funcName}' is not defined.`);
+                        }
+
+                        // Suppress output during tests
+                        suppressOutput = true;
+
+                        // Run tests
+                        for (const test of tests) {
+                            try {
+                                const input = Array.isArray(test.input) ? test.input.map(Sk.ffi.remapToPy) : [Sk.ffi.remapToPy(test.input)];
+                                const result = Sk.ffi.remapToJs(
+                                    await Sk.misceval.callsimAsync(null, pyFunc, ...input)
+                                );
+
+                                const passed = JSON.stringify(result) === JSON.stringify(test.expected);
+
+                                const testResult = document.createElement("div");
+                                testResult.style.padding = "5px";
+                                testResult.style.marginBottom = "10px";
+
+                                if (passed) {
+                                    testResult.style.backgroundColor = "#d4edda";
+                                    testResult.style.color = "#155724";
+                                    testResult.textContent = `✔️ ${test.description}`;
+                                } else {
+                                    testResult.style.backgroundColor = "#f8d7da";
+                                    testResult.style.color = "#721c24";
+                                    testResult.textContent = `❌ ${test.description} (Expected: ${JSON.stringify(test.expected)}, Got: ${JSON.stringify(result)})`;
+                                }
+                                output.appendChild(testResult);
+                            } catch (err) {
+                                const errorDiv = document.createElement("div");
+                                errorDiv.style.backgroundColor = "#f8d7da";
+                                errorDiv.style.color = "#721c24";
+                                errorDiv.style.padding = "10px";
+                                errorDiv.textContent = `Error in test "${test.description}": ${err.toString()}`;
+                                output.appendChild(errorDiv);
+                            }
+                        }
+
+                        // Restore output after tests
+                        suppressOutput = false;
+                    } catch (err) {
+                        consoleOutput.innerHTML = `<div style="color:red;">${err.toString()}</div>`;
+                    }
+                })();
+            }
+        }
+
+        function showSolution() {
+            const challenge = challenges[currentLanguage][currentChallenge];
+            editor.setValue(challenge.solutionCode);
+            editor.setOption('mode', currentLanguage === 'python' ? 'python' : 'javascript');
+
+            // Reconfigure indentation settings when showing solution
+            if (currentLanguage === 'python') {
+                editor.setOption('indentUnit', 4);
+                editor.setOption('indentWithTabs', false);
+                editor.setOption('extraKeys', {
+                    Tab: function(cm) {
+                        if (cm.somethingSelected()) {
+                            cm.indentSelection("add");
+                        } else {
+                            cm.replaceSelection(" ".repeat(cm.getOption("indentUnit")), "end", "+input");
+                        }
+                    }
+                });
+            } else {
+                editor.setOption('indentUnit', 2);
+                editor.setOption('indentWithTabs', true);
+                editor.setOption('extraKeys', {
+                    Tab: 'default'
+                });
+            }
+        }
+
+        // Initialize the page
+        loadChallenge();
+
+    </script>
+</body>
+</html>
