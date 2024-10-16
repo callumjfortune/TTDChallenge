@@ -243,7 +243,13 @@
                     functionName: "reverseString",
                     starterCode: `function reverseString(str) {
     // Buggy code
-    return str;
+  
+  	let reversed = "";
+  
+	reversed += str
+  	
+  
+    return reversed;
 }`,
                     solutionCode: `function reverseString(str) {
     let reversed = '';
@@ -266,8 +272,16 @@
                     difficulty: "Easy",
                     functionName: "countVowels",
                     starterCode: `function countVowels(str) {
+  
     // Buggy code
-    return 0;
+
+	for (var i = 0;i < str.length();i++ ){
+
+	return i
+	  
+	  
+	}
+
 }`,
                     solutionCode: `function countVowels(str) {
     let count = 0;
@@ -295,7 +309,10 @@
                     functionName: "isPalindrome",
                     starterCode: `function isPalindrome(str) {
     // Buggy code
-    return false;
+
+	let string = str + str
+
+    return string;
 }`,
                     solutionCode: `function isPalindrome(str) {
     let left = 0;
@@ -324,6 +341,12 @@
                     functionName: "isAnagram",
                     starterCode: `function isAnagram(str1, str2) {
     // Buggy code
+
+	if (str1 == str2) {
+	  return true
+	  
+	}
+	
     return false;
 }`,
                     solutionCode: `function isAnagram(str1, str2) {
@@ -364,7 +387,10 @@
                     functionName: "reverse_string",
                     starterCode: `def reverse_string(s):
     # Buggy code
-    return s`,
+
+    string = s.backwards()
+
+    return string`,
                     solutionCode: `def reverse_string(s):
     reversed_s = ''
     for i in range(len(s)-1, -1, -1):
@@ -408,6 +434,12 @@
                     functionName: "is_palindrome",
                     starterCode: `def is_palindrome(s):
     # Buggy code
+
+    if (s == s.backwards()) {
+        
+        return True
+    }
+
     return False`,
                     solutionCode: `def is_palindrome(s):
     left = 0
@@ -433,6 +465,12 @@
                     functionName: "is_anagram",
                     starterCode: `def is_anagram(str1, str2):
     # Buggy code
+
+    if (str1 != str2):
+        
+        print("this is supposed to work! :(")
+        return True
+
     return False`,
                     solutionCode: `def is_anagram(str1, str2):
     def build_char_map(s):
